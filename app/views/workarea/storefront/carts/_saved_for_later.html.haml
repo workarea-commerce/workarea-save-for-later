@@ -24,6 +24,8 @@
                 = hidden_field_tag :sku, item.sku, id: nil
                 = hidden_field_tag :quantity, item.quantity, id: nil
                 = hidden_field_tag :saved_list_item_id, item.id, id: nil
+                = hidden_field_tag :via, current_saved_list.to_gid_param, id: nil
+
                 - if item.customizations.present?
                   - item.customizations.each do |key, value|
                     = hidden_field_tag key, value
@@ -32,7 +34,8 @@
                 - else
                   %p.unavailable= t('workarea.storefront.products.unavailable')
             .grid__cell
-              = link_to t('workarea.storefront.saved_lists.remove'), saved_list_item_path(item), data: { method: 'delete', confirm: t('workarea.storefront.saved_lists.confirm_remove') }
+              = form_tag saved_list_item_path(item), method: :delete, data: { deletion_form: { message: t('workarea.storefront.saved_lists.confirm_remove') }, analytics: remove_from_saved_list_analytics_data(item.product).to_json } do
+                = button_tag t('workarea.storefront.saved_lists.remove'), class: 'text-button'
 
         .product-list__item-cell
           %table.table

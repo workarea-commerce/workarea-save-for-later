@@ -54,7 +54,7 @@ module Workarea
 
         assert_raises(Mongoid::Errors::DocumentNotFound) { list.reload }
 
-        list = SavedList.find(user.id.to_s)
+        list = SavedList.find_by(user_id: user.id.to_s)
         assert_equal(1, list.items.count)
       end
     end

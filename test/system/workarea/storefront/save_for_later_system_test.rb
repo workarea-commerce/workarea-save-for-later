@@ -47,7 +47,7 @@ module Workarea
         assert(page.has_no_content?(t('workarea.storefront.saved_lists.move_to_cart')))
         assert(page.has_content?(t('workarea.storefront.products.unavailable')))
 
-        click_link t('workarea.storefront.saved_lists.remove')
+        click_button t('workarea.storefront.saved_lists.remove')
 
         assert(page.has_content?('Success'))
 

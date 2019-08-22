@@ -1,5 +1,26 @@
 en:
   workarea:
+    admin:
+      fields:
+        adds: Adds
+        deletes: Deletes
+      insights:
+        most_saved_products:
+          title: Most Saved Products
+          info: Your products most frequently saved for later from the cart.
+          times:
+            one: '%{count} time'
+            other: '%{count} times'
+      reports:
+        reference:
+          adds:
+            name: Adds
+            description: The total number of items added to a list.
+          deletes:
+            name: Deletes
+            description: The total number of items deleted from a list
+        save_for_later_products:
+          title: Save For Later Products
     storefront:
       carts:
         save_for_later: Save for Later

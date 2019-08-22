@@ -14,7 +14,7 @@ module Workarea
       def current_saved_list
         @current_saved_list ||= SavedListViewModel.wrap(
           if current_user.present?
-            SavedList.find_or_create_by(id: current_user.id)
+            SavedList.find_or_create_by(user_id: current_user.id)
           elsif cookies[:saved_list_id].present?
             SavedList.find_or_create_by(id: cookies[:saved_list_id])
           else

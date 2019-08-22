@@ -2,10 +2,20 @@ module Workarea
   class SavedList
     include ApplicationDocument
 
-    # Will be either a object id for guests, or a user's id
-    field :_id, type: String, default: -> { BSON::ObjectId.new.to_s }
+    field :user_id, type: String
 
     embeds_many :items, class_name: 'Workarea::SavedList::Item'
+
+    index({ user_id: 1 })
+    index(
+      { updated_at: 1 },
+      {
+        expire_after_seconds: Workarea.config.saved_lists_expiration,
+        partial_filter_expression: {
+          user_id: { '$eq' => nil }
+        }
+      }
+    )
 
     def add_item(item_attributes = {})
       item_attributes = item_attributes.with_indifferent_access

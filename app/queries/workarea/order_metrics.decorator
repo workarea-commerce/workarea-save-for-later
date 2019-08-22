@@ -1,0 +1,26 @@
+module Workarea
+  decorate OrderMetrics, with: :save_for_later do
+    def products_from_saved_lists
+      @products_from_saved_lists ||=
+        items_from_saved_list
+          .group_by(&:product_id)
+          .transform_values do |items|
+            values = calculate_based_on_items(items)
+
+            {
+              saved_list_units_sold: values[:units_sold],
+              saved_list_revenue: values[:revenue]
+            }
+          end
+    end
+
+    private
+
+    def items_from_saved_list
+      @items_from_saved_list ||= items.select do |item|
+        via = GlobalID.parse(item.via)
+        via.present? && via.model_class.name == 'Workarea::SavedList'
+      end
+    end
+  end
+end

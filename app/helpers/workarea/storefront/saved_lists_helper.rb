@@ -1,11 +1,19 @@
 module Workarea
   module Storefront
     module SavedListsHelper
-      def save_for_later_analytics_data(item)
+      def add_to_saved_list_analytics_data(product)
         {
-          event: 'savedForLater',
+          event: 'addToSavedList',
           domEvent: 'submit',
-          payload: order_item_analytics_data(item)
+          payload: product_analytics_data(product)
+        }
+      end
+
+      def remove_from_saved_list_analytics_data(product)
+        {
+          event: 'removeFromSavedList',
+          domEvent: 'submit',
+          payload: product_analytics_data(product)
         }
       end
     end

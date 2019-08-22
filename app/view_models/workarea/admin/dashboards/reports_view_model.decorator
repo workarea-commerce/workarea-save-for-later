@@ -1,0 +1,11 @@
+module Workarea
+  decorate Admin::Dashboards::ReportsViewModel, with: :save_for_later do
+    def save_for_later_products
+      @save_for_later_products ||=
+        Admin::Reports::SaveForLaterProductsViewModel.wrap(
+          Workarea::Reports::SaveForLaterProducts.new(options),
+          options
+        )
+    end
+  end
+end

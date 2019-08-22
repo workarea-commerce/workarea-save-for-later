@@ -12,3 +12,13 @@ Workarea.append_stylesheets(
   'storefront.components',
   'workarea/storefront/save_for_later/components/product_prices'
 )
+
+Workarea.append_javascripts(
+  'storefront.modules',
+  'workarea/storefront/save_for_later/modules/saved_list_analytics'
+)
+
+Workarea.append_partials(
+  'admin.reports_dashboard',
+  'workarea/admin/dashboards/save_for_later_products_card'
+)

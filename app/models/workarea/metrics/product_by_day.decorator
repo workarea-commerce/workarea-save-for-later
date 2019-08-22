@@ -1,0 +1,10 @@
+module Workarea
+  decorate Metrics::ProductByDay, with: :save_for_later do
+    decorated do
+      field :saved_list_adds, type: Integer, default: 0
+      field :saved_list_deletes, type: Integer, default: 0
+      field :saved_list_units_sold, type: Integer, default: 0
+      field :saved_list_revenue, type: Float, default: 0.0
+    end
+  end
+end
