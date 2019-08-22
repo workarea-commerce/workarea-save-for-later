@@ -1,0 +1,8 @@
+.grid__cell
+  = form_tag saved_list_items_path, method: 'post', class: 'action-group__item', data: { analytics: save_for_later_analytics_data(item).to_json } do
+    = hidden_field_tag :product_id, item.product_id, id: nil
+    = hidden_field_tag :sku, item.sku, id: nil
+    = hidden_field_tag :quantity, item.quantity, id: nil
+    = hidden_field_tag :customizations, item.customizations.to_json, id: nil
+    = hidden_field_tag :cart_item_id, item.id, id: nil
+    %p= button_tag t('workarea.storefront.carts.save_for_later'), value: 'save_for_later', class: 'text-button'

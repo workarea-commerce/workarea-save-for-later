@@ -1,0 +1,12 @@
+module Workarea
+  decorate Storefront::CartItemsController, with: :save_for_later do
+    def create
+      super
+
+      if defined?(@item) && params[:saved_list_item_id].present?
+        current_saved_list.remove_item(params[:saved_list_item_id])
+        redirect_to cart_path
+      end
+    end
+  end
+end

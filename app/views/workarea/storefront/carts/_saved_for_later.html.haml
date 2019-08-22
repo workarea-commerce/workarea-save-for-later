@@ -1,0 +1,52 @@
+- if current_saved_list? && current_saved_list.items.any?
+  %h2= t('workarea.storefront.saved_lists.title')
+
+  %ul.product-list{ data: { analytics: product_list_analytics_data('Saved For Later').to_json } }
+    - current_saved_list.items.each_with_index do |item, index|
+      %li.product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+            .product-list__info
+              %p.product-list__name= link_to item.name, product_path(item.product, sku: item.sku)
+              %p.product-list__id= item.variant.name
+              %p.product-list__inventory-status= item.inventory_status
+              - if item.details.present?
+                .product-list__option-group
+                  - item.details.each do |name, value|
+                    %p.product-list__option #{name.titleize}: #{value}
+              - item.customizations.each do |name, value|
+                %p.product-list__customization #{name.titleize}: #{value}
+          .grid.grid--auto
+            .grid__cell
+              = form_tag cart_items_path, class: 'action-group__item', data: { analytics: add_to_cart_analytics_data(item.product).to_json } do
+                = hidden_field_tag :product_id, item.product_id, id: nil
+                = hidden_field_tag :sku, item.sku, id: nil
+                = hidden_field_tag :quantity, item.quantity, id: nil
+                = hidden_field_tag :saved_list_item_id, item.id, id: nil
+                - if item.customizations.present?
+                  - item.customizations.each do |key, value|
+                    = hidden_field_tag key, value
+                - if item.purchasable?
+                  %p= button_tag t('workarea.storefront.saved_lists.move_to_cart'), class: 'text-button'
+                - else
+                  %p.unavailable= t('workarea.storefront.products.unavailable')
+            .grid__cell
+              = link_to t('workarea.storefront.saved_lists.remove'), saved_list_item_path(item), data: { method: 'delete', confirm: t('workarea.storefront.saved_lists.confirm_remove') }
+
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices= t('workarea.storefront.orders.price')
+                %th.table__quantity= t('workarea.storefront.orders.quantity')
+                %th.table__prices= t('workarea.storefront.orders.total')
+            %tbody
+              %tr
+                %td.table__prices
+                  .product-prices.product-prices--saved-list
+                    = render 'workarea/storefront/products/pricing', product: item.product
+                %td.table__quantity
+                  %p= item.quantity
+                %td.table__prices
+                  = number_to_currency(item.total_price)
