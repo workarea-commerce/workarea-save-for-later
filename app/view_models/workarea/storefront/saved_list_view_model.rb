@@ -13,7 +13,6 @@ module Workarea
       def inventory
         @inventory ||= Inventory::Collection.new(model.items.map(&:sku))
       end
-
     end
   end
 end
